@@ -72,6 +72,11 @@ RUN sed -i -e 's/ES_DISTRIBUTION_TYPE=tar/ES_DISTRIBUTION_TYPE=docker/' bin/elas
 
 FROM centos:8
 
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+RUN cd /
+
 RUN for iter in {1..10}; do \
     yum update --setopt=tsflags=nodocs -y && \
     yum install --setopt=tsflags=nodocs -y \
